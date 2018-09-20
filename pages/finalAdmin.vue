@@ -30,17 +30,19 @@
             <el-button type="primary" size="mini">지정</el-button>
           </template>
         </el-table-column>
-
-        <el-form label-width="90px" @submit.native.prevent="consulForm">
-          <el-dialog title="고객 정보" :visible.sync="consulFormDialog" width="400px">
-            <h1>하이</h1>
-            <el-form-item label="이름">
-              <el-input v-model="consulFormData.name"></el-input>
-            </el-form-item>
-          </el-dialog>
-        </el-form>
-
       </el-table>
+      <el-form label-width="90px" @submit.native.prevent="consulForm">
+        <el-dialog title="고객 정보" :visible.sync="consulFormDialog" width="400px">
+          <h1>하이</h1>
+          <el-form-item label="이름">
+            <el-input v-model="consulFormData.name"></el-input>
+          </el-form-item>
+          <div slot="footer">
+            <el-button @click="consulFormDialog= false">닫기</el-button>
+            <el-button type="primary" native-type="submit">수정</el-button>
+          </div>
+        </el-dialog>
+      </el-form>
       <div class="pagination center">
         <el-pagination background layout="prev, pager, next" :total="1000"></el-pagination>
       </div>
@@ -108,7 +110,7 @@ export default {
       id: "최태근",
       selected: "",
       staff: [],
-      consul:[],
+      consul: [],
       customer: [],
       createStaffData: {
         name: "",
@@ -147,7 +149,7 @@ export default {
         period: "",
         marry: "",
         grade: "",
-        note:""
+        note: ""
       }
     };
   },
@@ -159,26 +161,34 @@ export default {
 
       this.createUserDialog = false;
 
-      this.customer.push(res.data);
-      this.customer.reverse();
+      // this.customer.push(res.data);
+
+      // this.customer.sort( (left, right) => {
+      //   //반환값이 음수 => left, right 순으로 정렬(오름차순 정렬)
+      //   //반환값이 양수 =>  right, left 순으로 정렬(내림차순 정렬)
+      //   //반환값이 0 => 정렬하지 않고 그대로 냅둠
+      //   return right.id - left.id
+      // })
+
+      this.customer.unshift(res.data);
     },
     async createStaff() {
       const res = await axios.post("/api/createStaff", {
         data: this.createStaffData
-      })
+      });
 
-      this.createStaffDialog = false
+      this.createStaffDialog = false;
 
-      this.staff.push(res.data)
+      this.staff.push(res.data);
     },
-    async consulForm(){
-      const res = await axios.post("/api/consulForm",{
-        data:this.consulFormData
-      })
+    async consulForm() {
+      const res = await axios.post("/api/consulForm", {
+        data: this.consulFormData
+      });
 
-      this.consulFormDialog = false
+      this.consulFormDialog = false;
 
-      this.consul.push(res.data)
+      this.consul.push(res.data);
     }
   },
   mounted() {

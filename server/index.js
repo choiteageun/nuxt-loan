@@ -2,6 +2,7 @@ import Koa from 'koa'
 import Router from 'koa-router'
 import bodyParser from 'koa-bodyparser'
 import { Nuxt, Builder } from 'nuxt'
+import session from 'koa-session'
 
 async function start () {
   const app = new Koa()
@@ -21,6 +22,14 @@ async function start () {
     await builder.build()
   }
 
+  //세션 등록
+  app.keys = ["chance"]
+  const sessionConfig = {
+    maxAge: 3600 * 24 * 1000 //1일
+  }
+
+  app.use(session(sessionConfig, app))
+
   app.use(bodyParser())
 
   const models = require('./models/index')
@@ -28,14 +37,19 @@ async function start () {
 
   const router = new Router()
 
-  router.get("/number", ctx =>{
-    ctx.body = Math.floor(Math.random() *100)
-  })
+  // router.get("/number", ctx =>{
+  //   ctx.body = Math.floor(Math.random() *100)
+  // })
 
   
 
   router.get('/api/consultation',async ctx=>{
-    const data = await models.Consultation.findAll({})
+    const data = await models.Consultation.findAll({
+      order: [
+        ["id", "desc"],
+        //["컬럽값", "asc or desc"]
+      ]
+    })
     ctx.body = data
   })
 
@@ -69,6 +83,20 @@ async function start () {
     const {data} = ctx.request.body
 
     const result = await models.Consultation.findAll({})
+  })
+
+  router.post('/api/auth/login', async ctx =>{
+    const { password } = ctx.request.body
+    // const password = ctx.request.body.password전개연산자
+
+    if( password === "1234"){
+      ctx.session.logged = true
+      ctx.status = 200
+      ctx.body = "LOGIN"
+    }else{
+      ctx.status= 401
+      ctx.body = "로그인 실패"
+    }
   })
 
   //서버에 라우터 붙이기
