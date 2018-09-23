@@ -82,7 +82,12 @@ async function start () {
 
     const {data} = ctx.request.body
 
-    const result = await models.Consultation.findAll({})
+    const result = await models.Consultation.findAll({where:{
+      id:25
+    }})
+    console.log(result)
+
+    ctx.body = result
   })
 
   router.post('/api/auth/login', async ctx =>{

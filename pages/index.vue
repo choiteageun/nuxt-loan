@@ -139,6 +139,7 @@ export default {
         });
         this.wrongPassword = false;
         this.adminDialog = false;
+        
       } catch (e) {
         this.wrongPassword = true;
       }
