@@ -46,8 +46,16 @@
       </section>
     </div>
     <footer class="footer">
-      <p @click="adminDialog= true">
+      <p v-if="!logged" @click="adminDialog= true">
         관리자 로그인
+      </p>
+
+      <p v-if="logged">
+        <span @click="handleLogout">로그아웃</span>
+        <nuxt-link to="/finalAdmin">
+          <span style="color: white;">관리자 페이지</span>
+        </nuxt-link>
+
       </p>
     </footer>
 
@@ -74,6 +82,7 @@ import axios from "axios";
 export default {
   data() {
     return {
+      logged: false,
       adminDialog: false,
       adminPassword: "",
       wrongPassword: false,
@@ -137,12 +146,29 @@ export default {
         await axios.post("/api/auth/login", {
           password: this.adminPassword
         });
+
+        //로그인 성공
+        this.logged = true;
         this.wrongPassword = false;
         this.adminDialog = false;
-        
       } catch (e) {
+        //로그인 실패
         this.wrongPassword = true;
       }
+    },
+    async handleLogout() {
+      await axios.get("/api/auth/logout");
+      this.logged = false;
+    }
+  },
+  async mounted() {
+    //로그인 체크
+    try {
+      const res = await axios.get("/api/auth/check");
+      //로그인 중
+      this.logged = true;
+    } catch (e) {
+      //비회원
     }
   }
 };
@@ -240,12 +266,16 @@ export default {
     line-height: 50px;
     text-align: center;
     cursor: pointer;
+    span {
+      margin-left: 10px;
+      margin-right: 10px;
+    }
   }
 }
-.v-enter{
+.v-enter {
   opacity: 0;
 }
-.v-enter-active{
+.v-enter-active {
   transition: opacity 0.3s;
 }
 .danger {

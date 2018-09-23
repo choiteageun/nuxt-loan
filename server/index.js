@@ -31,80 +31,15 @@ async function start () {
   app.use(session(sessionConfig, app))
 
   app.use(bodyParser())
-
-  const models = require('./models/index')
-  const Consultation = require('./models/Consultation')
-
-  const router = new Router()
-
   // router.get("/number", ctx =>{
   //   ctx.body = Math.floor(Math.random() *100)
   // })
+  const api = require('./api/index')
+  const router = new Router()
 
-  
+  router.use("/api", api.routes())
 
-  router.get('/api/consultation',async ctx=>{
-    const data = await models.Consultation.findAll({
-      order: [
-        ["id", "desc"],
-        //["컬럽값", "asc or desc"]
-      ]
-    })
-    ctx.body = data
-  })
-
-  router.post('/api/consultation',async ctx=>{
-    const { data } = ctx.request.body
-    // const data = ctx.request.body.data = const { data } = ctx.request.body
-    //const data = ctx.request.body.data = const { data , as , kk } = ctx.request.body
-
-    const result = await models.Consultation.create( data )
-    
-    ctx.body = result
-  })
-
-  router.get('/api/staffConsultation',async ctx =>{
-    const result = await models.Consultation.findAll({where:{
-      manager:"신현민"
-    }})
-    ctx.body = result
-  })
-
-  router.post('/api/createStaff', async ctx =>{
-    const {data} = ctx.request.body
-
-    const result = await models.User.create( data)
-
-    ctx.body = result
-  })
-
-  router.post('/api/consulForm', async ctx=> {
-
-    const {data} = ctx.request.body
-
-    const result = await models.Consultation.findAll({where:{
-      id:25
-    }})
-    console.log(result)
-
-    ctx.body = result
-  })
-
-  router.post('/api/auth/login', async ctx =>{
-    const { password } = ctx.request.body
-    // const password = ctx.request.body.password전개연산자
-
-    if( password === "1234"){
-      ctx.session.logged = true
-      ctx.status = 200
-      ctx.body = "LOGIN"
-    }else{
-      ctx.status= 401
-      ctx.body = "로그인 실패"
-    }
-  })
-
-  //서버에 라우터 붙이기
+  //서버에 API 붙이기
   app.use(router.routes())
   app.use(router.allowedMethods())
 

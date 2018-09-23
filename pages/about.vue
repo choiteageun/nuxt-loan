@@ -1,95 +1,49 @@
 <template>
-  <div></div>
+  <div>
+    <p>
+      {{message}}
+      <br />
+      {{reversedMessageComputed}}
+      <br />
+      <el-button type="primary" @click="reverseMessage">메시지 바꾸기</el-button>
+    </p>
+  </div>
 </template>
 <script>
-
-import Vue from "vue"
-import ElementUI from "element-ui"
-import 'element-ui/lib/theme-chalk/index.css'
-import locale from "element-ui/lib/locale/lang/ko"
-import axios from "axios"
-import { setTimeout } from 'timers';
-
-Vue.use(ElementUI,{
-  locale: locale
-})
-
-
-
 export default{
   data(){
     return{
-    
+      message: "안녕하세요",
+      
     }
+  },
+  methods:{
+    reverseMessage(){
+      this.message = this.message.split("").reverse().join("")
+    }
+  },
+  //해당 변수가 바뀌었을때 무조건 실행되는 함수
+  watch:{
+    message(){
+      console.log("메시지")
+    },
   },
   
-  methods:{
-    getData(callback){
-      let tableData
-
-      setTimeout(()=>{
-        tableData = "데이터 들어감!"
-
-        callback(tableData)
-      }, 1000)
-    },
-
-  },
-  created(){
-    
-  },
-  async mounted(){
-    // this.getData(function (data){
-    //   console.log(data)
-    // })
-    const func = (num)=>{
-      return new Promise(function(resolve, reject){
-        //resolve : 성공을 알리는 함수
-        //reject : 실패를 알리는 함수
-        setTimeout(function(){
-          if(num > 5){
-            resolve(num)
-          }else{
-            reject("실패!")
-          }
-        }, 1000)
-      })
-    }
-
-    /* then, catch 구문을 이용한 promise 비동기 처리 */
-    // func(10).then( result =>{
-    //   console.log("성공했을때만 실행됩니다.")
-    //   console.log(result)
-    // }).catch(err => {
-    //   console.log("실패했습니다.")
-    //   console.log("에러 코드 : " + err)
-    // })
-
-    /* async, await 을 통한 비동기 처리 */
-    /*await 은 프로미스로 만들어진 곳에만 사용할 수 있다. */
-    try{
-      let result = await func(11)
-      console.log(result)
-
-      result = await func(12)
-      console.log(result)
-
-      result = await func(13)
-      console.log(result)
-
-      result = await func(14)
-      console.log(result)
-
-      result = await func(15)
-      console.log(result) 
-    }catch(err){
-      console.log("실패했습니다.")
+  computed:{
+    reversedMessageComputed(){
+      return this.message.split("").reverse().join("")
     }
   }
 }
 </script>
-<style>
-  .el-select{
-    width: 300px;
-  }
+<style lang="scss" scoped>
+p{
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  font-weight:200;
+}
 </style>
