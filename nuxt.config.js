@@ -12,7 +12,8 @@ module.exports = {
     ]
   },
   env:{
-    HOST_URL: "http://localhost:3000",
+    // HOST_URL: "http://localhost:3000",
+    HOST_URL: "http://13.58.30.58:3000"
   },
   css: [
     { src: '@/assets/scss/element-ui.scss', lang:"scss"},
