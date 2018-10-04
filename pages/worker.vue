@@ -42,7 +42,7 @@ import axios from "axios";
 export default {
   data() {
     return {
-      customer:[{name:"최태근",tel:"01056565656"},{name:"김길동",tel:"01046464646"}],
+      customer:[],
       worker: "최태근"
     };
   },
@@ -50,9 +50,11 @@ export default {
 
   },
   mounted(){
-    axios.get("/api/staffConsultation").then(res => {
-      this.customer = res.data
+    axios.get("/api/consultation/staff").then(res => {
+      this.customer.push(res.data)
+      // this.customer = res.data
     })
+
   }
 };
 </script>

@@ -46,13 +46,13 @@
       </section>
     </div>
     <footer class="footer">
-      <p v-if="!logged" @click="adminDialog= true">
+      <p v-if="!$store.state.logged" @click="adminDialog= true">
         관리자 로그인
       </p>
 
-      <p v-if="logged">
+      <p v-if="$store.state.logged">
         <span @click="handleLogout">로그아웃</span>
-        <nuxt-link to="/finalAdmin">
+        <nuxt-link to="/admin">
           <span style="color: white;">관리자 페이지</span>
         </nuxt-link>
 
@@ -78,11 +78,11 @@
 </template>
 <script>
 import axios from "axios";
+import socket from "@/plugins/socket.io.js"
 
 export default {
   data() {
     return {
-      logged: false,
       adminDialog: false,
       adminPassword: "",
       wrongPassword: false,
@@ -148,7 +148,7 @@ export default {
         });
 
         //로그인 성공
-        this.logged = true;
+        this.$store.commit("login")
         this.wrongPassword = false;
         this.adminDialog = false;
       } catch (e) {
@@ -158,17 +158,15 @@ export default {
     },
     async handleLogout() {
       await axios.get("/api/auth/logout");
-      this.logged = false;
+      this.$store.commit("logout")
     }
   },
-  async mounted() {
-    //로그인 체크
-    try {
-      const res = await axios.get("/api/auth/check");
-      //로그인 중
-      this.logged = true;
-    } catch (e) {
-      //비회원
+  async fetch({ store, app }){
+    try{
+      await app.$axios.get("/api/auth/check")
+      store.commit("login")
+    }catch(e){
+      
     }
   }
 };

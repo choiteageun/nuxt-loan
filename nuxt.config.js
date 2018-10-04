@@ -7,8 +7,12 @@ module.exports = {
       { hid: 'description', name: 'description', content: 'Nuxt.js project' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+    ],
+    script:[
     ]
+  },
+  env:{
+    HOST_URL: "http://localhost:3000",
   },
   css: [
     { src: '@/assets/scss/element-ui.scss', lang:"scss"},
@@ -20,5 +24,9 @@ module.exports = {
   ],
   build: {
 
+  },
+  modules: ["@nuxtjs/axios"],
+  axios: {
+    browserBaseURL: "http://localhost:3000"
   }
 }

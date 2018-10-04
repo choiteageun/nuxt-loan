@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <el-table :data="applyList" size="mini">
+    <el-table :data="$store.state.applyList" size="mini">
       <el-table-column type="selection"></el-table-column>
       <el-table-column prop="name" label="고객명"></el-table-column>
       <el-table-column prop="tel" label="연락처"></el-table-column>
@@ -16,7 +16,7 @@
       </el-table-column>
       <el-table-column width="160">
         <template slot-scope="scope">
-          <el-button size="mini" @click=" dialog.updateConsul = true">상세정보</el-button>
+          <el-button size="mini" @click="open(scope.row)">상세정보</el-button>
           <el-button type="primary" size="mini">지정</el-button>
         </template>
       </el-table-column>
@@ -39,6 +39,16 @@
 import axios from "axios";
 export default {
   data() {
+    return{
+      selected:''
+    }
+  },
+
+  
+  methods:{
+    open(consul){
+      this.$parent.$refs.dialog.open(consul)
+    }
   },
 
   props: {
@@ -46,14 +56,6 @@ export default {
       type: Object,
       required: true
     },
-
-    applyList:{
-      type: Array,
-      required:true
-    },
-  },
-  async mounted() {
-    this.$emit("initConsul")
   }
 };
 </script>

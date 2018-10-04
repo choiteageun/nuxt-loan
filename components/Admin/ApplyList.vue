@@ -1,7 +1,7 @@
 <template>
   <div>
-    <ApplyListTable :dialog="dialog" :applyList="applyList" @initConsul="initConsul"></ApplyListTable>
-    <ApplyListDialog :dialog="dialog" :applyList="applyList" @createConsul="createConsul"></ApplyListDialog>
+    <ApplyListTable :dialog="dialog"></ApplyListTable>
+    <ApplyListDialog ref="dialog" :dialog="dialog" @createConsul="createConsul"></ApplyListDialog>
   </div>
 </template>
 <script>
@@ -21,19 +21,12 @@ export default {
         createStaff: false,
         updateConsul: false
       },
-
-      applyList: []
     };
   },
 
   methods: {
     async createConsul(consulData) {
-      console.log("A");
-      const res = await axios.post("/api/consultation", {
-        data: consulData
-      });
-
-      this.dialog.createCustomer = false;
+      
 
       // this.customer.push(res.data);
 
@@ -43,13 +36,10 @@ export default {
       //   //반환값이 0 => 정렬하지 않고 그대로 냅둠
       //   return right.id - left.id
       // })
-
-      this.applyList.unshift(res.data);
-    },
-    async initConsul() {
-      const res = await axios.get("/api/consultation");
-      this.applyList = res.data;
-    },
+    }
+  },
+  async mounted() {
+    
   }
 };
 </script>

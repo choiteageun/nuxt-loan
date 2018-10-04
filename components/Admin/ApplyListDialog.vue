@@ -8,26 +8,26 @@
             <el-col :span="12"><div class="grid-content bg-purple-light"></div></el-col>
           </el-row> -->
         <el-row>
-          <el-col :span="24">
-            <el-form-item label="신청금액" label-width="70%">
-              <el-input disabled="true"></el-input>
+          <el-col :span="16">
+            <el-form-item label="신청금액">
+              <el-input disabled v-model="consulFormData.loanAmount"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="상태">
-              <template slot-scope="scope">
-                <el-select v-model="consulFormData.situation" placeholder="진행상태를 체크해주세요">
-                  <el-option label="미확인" value="미확인"></el-option>
-                  <el-option label="대기중" value="대기중"></el-option>
-                  <el-option label="진행중" value="진행중"></el-option>
-                </el-select>
-              </template>
+              <el-select v-model="consulFormData.situation" placeholder="진행상태를 체크해주세요">
+                <el-option label="미확인" value="미확인"></el-option>
+                <el-option label="대기중" value="대기중"></el-option>
+                <el-option label="진행중" value="진행중"></el-option>
+              </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="16">
-            <el-form-item label-width="120px" label="담당직원/접수자">
+            <el-form-item label="담당/접수자">
               <el-col :span="11">
-                <el-input v-model="consulFormData.manager" prop="manager"></el-input>
+                <el-select v-model="consulFormData.manager" style="width:50%;">
+                  <el-option v-for="staff in 3" :key="staff" :label="staff.name"></el-option>
+                </el-select>
               </el-col>
               <el-col :span="2" class="center">/</el-col>
               <el-col :span="11">
@@ -36,129 +36,109 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label-width="50px" label="경로">
+            <el-form-item label="경로">
               <el-input v-model="consulFormData.route"></el-input>
             </el-form-item>
           </el-col>
           <!-- v-model rules 작업해야함 -->
-          <el-col :span="16">
-            <el-form-item label="접수등록" label-width="120px">
+          <el-col :span="24">
+            <el-form-item label="접수등록">
               <el-col :span="11">
-                <el-form-item prop="date1">
-                  <el-date-picker type="date" placeholder="월,일을 설정해주세요" style="width: 100%;" disabled="false"></el-date-picker>
-                </el-form-item>
+                <el-date-picker v-model="consulFormData.enrollment_date" type="date" placeholder="월,일을 설정해주세요" style="width: 100%;"></el-date-picker>
               </el-col>
               <el-col class="center" :span="2">-</el-col>
               <el-col :span="11">
-                <el-form-item prop="prop2">
-                  <el-time-picker type="fixed-time" placeholder="시간을 설정해주세요" style="width:100%;" disabled="false"></el-time-picker>
-                </el-form-item>
+                <el-time-picker v-model="consulFormData.enrollment_time" value-format="HH:mm:ss" type="fixed-time" placeholder="시간을 설정해주세요" style="width:100%;"></el-time-picker>
               </el-col>
             </el-form-item>
           </el-col>
           <el-col :span="24">
-            <el-form-item label="예약표시" label-width="70px">
-              <el-col :span="6">
-                <el-form-item prop="reservation1">
-                  <el-date-picker type="date" placeholder="월,일을 설정해주세요" style="width:100%;"></el-date-picker>
-                </el-form-item>
+            <el-form-item label="예약표시">
+              <el-col :span="11">
+                <el-date-picker v-model="consulFormData.reserve_date" type="date" placeholder="월,일을 설정해주세요" style="width:100%;"></el-date-picker>
               </el-col>
-              <el-col class="center" :span="1">-</el-col>
-              <el-col :span="6">
-                <el-form-item prop="reservation2">
-                  <el-time-picker type="fixed-time" placeholder="시간을 설정해주세요" style="width:100%;"></el-time-picker>
-                </el-form-item>
-              </el-col>
-              <el-col :span="1">내용</el-col>
-              <el-col :span="10">
-                <el-input></el-input>
+              <el-col class="center" :span="2">-</el-col>
+              <el-col :span="11">
+                <el-time-picker v-model="consulFormData.reserve_time" value-format="HH:mm:ss" type="fixed-time" placeholder="시간을 설정해주세요" style="width:100%;"></el-time-picker>
               </el-col>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
-            <el-form-item label="이름" label-width="50px">
+          <el-col :span="24">
+            <el-form-item v-model="consulFormData.reserve_contents" label="내용">
               <el-input></el-input>
             </el-form-item>
           </el-col>
+
+          <el-col :span="8">
+            <el-form-item label="이름">
+              <el-input v-model="consulFormData.name"></el-input>
+            </el-form-item>
+          </el-col>
           <el-col :span="12">
-            <el-form-item label="휴대폰번호" label-width="120px">
+            <el-form-item label="휴대폰번호" v-model="consulFormData.tel">
               <el-input></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="4">
-            <el-form-item label-width="0px">
-              <el-button type="warning">중복확인</el-button>
+            <el-button type="warning" size="mini" style="width: 100%;">중복확인</el-button>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="생년월일">
+              <el-input v-model="consulFormData.birth"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="16">
+            <el-form-item label="명의/통신사">
+              <el-select v-model="consulFormData.owner" placeholder="명의를 확인해주세요" style="width:50%;">
+                <el-option label="본인" value="본인"></el-option>
+                <el-option label="직계가족" value="직계가족"></el-option>
+                <el-option label="지인" value="지인"></el-option>
+              </el-select>
+              <el-select v-model="consulFormData.agency" placeholder="통신사를 선택해주세요" style="width:50%;">
+                <el-option label="SKT" value="SKT"></el-option>
+                <el-option label="LGT" value="LGT"></el-option>
+                <el-option label="KT" value="KT"></el-option>
+                <el-option label="기타" value="기타"></el-option>
+              </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="생년월일" label-width="80px">
-              <el-input></el-input>
+            <el-form-item label="직군">
+              <el-select v-model="consulFormData.agency" placeholder="직업군을 선택해주세요">
+                <el-option label="직장인" value="직장인"></el-option>
+                <el-option label="자영업자" value="자영업자"></el-option>
+                <el-option label="무직" value="무직"></el-option>
+                <el-option label="기타" value="기타"></el-option>
+              </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="16">
             <el-col :span="12">
-              <el-form-item label="명의/통신사" label-width="120px">
-                <template slot-scope="scope">
-                  <el-select v-model="consulFormData.owner" placeholder="명의를 확인해주세요">
-                    <el-option label="본인" value="본인"></el-option>
-                    <el-option label="직계가족" value="직계가족"></el-option>
-                    <el-option label="지인" value="지인"></el-option>
-                  </el-select>
-                </template>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item label-width="0px">
-                <template slot-scope="scope">
-                  <el-select v-model="consulFormData.agency" placeholder="통신사를 선택해주세요">
-                    <el-option label="SKT" value="SKT"></el-option>
-                    <el-option label="LGT" value="LGT"></el-option>
-                    <el-option label="KT" value="KT"></el-option>
-                    <el-option label="기타" value="기타"></el-option>
-                  </el-select>
-                </template>
-              </el-form-item>
-            </el-col>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="직군" label-width="80px">
-              <template slot-scope="scope">
-                <el-select v-model="consulFormData.agency" placeholder="직업군을 선택해주세요">
-                  <el-option label="직장인" value="직장인"></el-option>
-                  <el-option label="자영업자" value="자영업자"></el-option>
-                  <el-option label="무직" value="무직"></el-option>
-                  <el-option label="기타" value="기타"></el-option>
-                </el-select>
-              </template>
-            </el-form-item>
-          </el-col>
-          <el-col :span="16">
-            <el-col :span="12">
-              <el-form-item label="직장명">
+              <el-form-item v-model="consulFormData.jobTitle" label="직장명">
                 <el-input></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="12">
+            <el-col :span="12" v-model="consulFormData.period">
               <el-form-item label="재직기간">
                 <el-input></el-input>
               </el-form-item>
             </el-col>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="재직정보">
+            <el-form-item v-model="consulFormData.about" label="재직정보">
               <el-input></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="소득정보">
+            <el-form-item v-model="consulFormData.income" label="소득정보">
               <el-input></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="4대가입유무" label-width="130px">
+            <el-form-item label="4대가입유무" style="height:29px">
               <el-radio-group v-model="consulFormData.insurance">
-                <el-radio label="유"></el-radio>
-                <el-radio label="무"></el-radio>
+                <el-radio :label="true">유</el-radio>
+                <el-radio :label="false">무</el-radio>
               </el-radio-group>
             </el-form-item>
           </el-col>
@@ -169,20 +149,20 @@
           </el-col>
           <el-col :span="8">
             <el-form-item label="신용등급">
-              <el-input></el-input>
+              <el-input v-model="consulFormData.grade"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="결혼유/무" label-width="130px">
-              <el-radio-group v-model="consulFormData.marry">
-                <el-radio label="유"></el-radio>
-                <el-radio label="무"></el-radio>
+            <el-form-item label="결혼유무">
+              <el-radio-group v-model="consulFormData.marry" style="height:29px">
+                <el-radio :label="true">유</el-radio>
+                <el-radio :label="false">무</el-radio>
               </el-radio-group>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="연체이력">
-              <el-input></el-input>
+              <el-input v-model="consulFormData.overdue"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="16">
@@ -192,10 +172,10 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item label="재산여부" label-width="130px">
+              <el-form-item label="재산여부" style="height:29px">
                 <el-radio-group v-model="consulFormData.propertyA">
-                  <el-radio label="유"></el-radio>
-                  <el-radio label="무"></el-radio>
+                  <el-radio :label="true">유</el-radio>
+                  <el-radio :label="false">무</el-radio>
                 </el-radio-group>
               </el-form-item>
             </el-col>
@@ -205,7 +185,7 @@
             <el-button type="primary" native-type="submit">수정완료</el-button>
           </el-col>
           <el-col>
-            <el-input style="margin-top:20px;margin-bottom:20px;" type="textarea" :autosize="{ minRows: 1, maxRows: 2}" disabled="true" placeholder="상담내용"></el-input>
+            <el-input style="margin-top:20px;margin-bottom:20px;" type="textarea" :autosize="{ minRows: 1, maxRows: 2}" disabled placeholder="상담내용"></el-input>
           </el-col>
           <el-table :data="memo" size="mini" style="width:100%;">
             <el-table-column>
@@ -275,10 +255,10 @@ import axios from "axios";
 export default {
   data() {
     return {
-      route:"웹",
+      route: "웹",
       selected: "",
-      memo:[{time:"2016-03-21 10:30:23", name:"최태근", note:"없음"}],
-      staff: [],
+      memo: [{ time: "2016-03-21 10:30:23", name: "최태근", note: "없음" }],
+      staff: [{name: "하이"},{name: "하삼"},{name: "하사"}],
       consul: [],
       createStaffData: {
         name: "",
@@ -294,6 +274,7 @@ export default {
         manager: ""
       },
       consulFormData: {
+        id: "",
         name: "",
         tel: "",
         loanAmount: "",
@@ -304,38 +285,49 @@ export default {
         jobTitle: "",
         jobGroup: "",
         about: "",
-        income: "",
-        insurance: "",
-        overdue: "",
-        propertyA: "",
+        income: 0,
+        insurance: false,
+        overdue: 0,
+        propertyA: false,
         propertyB: "",
         manager: "",
         receptionist: "",
-        enrollment: "",
+        enrollment_date: "2018-09-28",
+        enrollment_time: "13:00:00",
+        reserve_date: "2018-09-28",
+        reserve_time: "13:00:00",
+        reserve_contents: "",
         owner: "",
         agency: "",
         period: "",
-        marry: "",
-        grade: "",
-        note: ""
-      },
+        marry: false,
+        grade: ""
+      }
     };
   },
-  props:{
-    dialog:{
-      type:Object,
-      required:true
-    },
-    applyList:{
-      type: Array,
-      required:true
-    },
+  props: {
+    dialog: {
+      type: Object,
+      required: true
+    }
   },
   methods: {
+    open(consul) {
+      this.consulFormData = consul;
+
+      this.dialog.updateConsul = true;
+    },
     async createUser() {
-      //이벤트 실행
-      console.log("B")
-      this.$emit("createConsul", this.createUserData)
+      const res = await axios.post("/api/consultation", {
+        data: this.createUserData
+      });
+
+      this.dialog.createCustomer = false;
+
+      this.$store.commit("addApply", res.data);
+    },
+    async getStaff() {
+      const res = await axios.get("/api/getStaff", {});
     },
     async createStaff() {
       const res = await axios.post("/api/createStaff", {
@@ -347,16 +339,18 @@ export default {
       this.applyList.push(res.data);
     },
     async consulForm() {
-      const res = await axios.post("/api/consulForm", {
-        data: this.consulFormData
-      });
+      const res = await axios.post(
+        `/api/consultation/${this.consulFormData.id}`,
+        {
+          data: this.consulFormData
+        }
+      );
 
       this.consulFormDialog = false;
 
-      this.applyList.push(res.data);
-      console.log(consul);
+      console.log(res);
     }
-  },
+  }
 };
 </script>
 <style lang="scss" scoped>

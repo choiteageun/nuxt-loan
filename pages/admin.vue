@@ -4,11 +4,11 @@
       <h1 class="title">Final Admin Page</h1>
     </div>
     <div class="container flex topBtns">
-      <el-button @click="tab = 'apply'" :type="tab === 'apply' ? 'primary' : 'warning'" >신청목록</el-button>
+      <el-button @click="tab = 'apply'" :type="tab === 'apply' ? 'primary' : 'warning'">신청목록</el-button>
       <el-button @click="tab = 'complete'" :type="tab === 'complete' ? 'primary' : 'warning'">승인목록</el-button>
       <el-button @click="tab = 'notice'" :type="tab === 'notice' ? 'primary' : 'warning'">공지사항</el-button>
       <el-button @click="tab = 'customer'" :type="tab === 'customer' ? 'primary' : 'warning'">고객관리</el-button>
-      <el-button @click="tab = 'staff'" :type="tab === 'staff' ? 'primary' : 'warning'" >직원관리</el-button>
+      <el-button @click="tab = 'staff'" :type="tab === 'staff' ? 'primary' : 'warning'">직원관리</el-button>
     </div>
     <div>
       <ApplyList v-if="tab === 'apply'"></ApplyList>
@@ -20,19 +20,42 @@
   </section>
 </template>
 <script>
-import ApplyList from "@/components/Admin/ApplyList.vue"
-import CompleteList from "@/components/Admin/CompleteList.vue"
-import Customer from "@/components/Admin/Customer.vue"
-import Notice from "@/components/Admin/Notice.vue"
-import Staff from "@/components/Admin/Staff.vue"
+import ApplyList from "@/components/Admin/ApplyList.vue";
+import CompleteList from "@/components/Admin/CompleteList.vue";
+import Customer from "@/components/Admin/Customer.vue";
+import Notice from "@/components/Admin/Notice.vue";
+import Staff from "@/components/Admin/Staff.vue";
+
+import socket from "@/plugins/socket.io.js"
+
 export default {
   data() {
     return {
-      tab: "apply",
+      tab: "apply"
     };
   },
-  components:{
-    ApplyList, CompleteList, Customer, Notice, Staff
+  components: {
+    ApplyList,
+    CompleteList,
+    Customer,
+    Notice,
+    Staff
+  },
+  updated() {
+    console.log(this.tab);
+  },
+  //컴포넌트가 로딩되기 전에 실행되는 함수, {페이지 컴포넌트만 사용 가능}
+  async fetch({ store, app, redirect }) {
+    try {
+      await app.$axios.$get("/api/auth/check");
+      store.commit("login");
+
+      const data = await app.$axios.$get("/api/consultation");
+      store.commit("setApplyList", data)
+    } catch (e) {
+      console.log(e)
+      redirect('/')
+    }
   }
 };
 </script>

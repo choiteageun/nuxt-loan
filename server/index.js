@@ -4,8 +4,11 @@ import bodyParser from 'koa-bodyparser'
 import { Nuxt, Builder } from 'nuxt'
 import session from 'koa-session'
 
+
 async function start () {
   const app = new Koa()
+  const http = require('http').createServer(app.callback())
+  const io = require("socket.io")(http)
   const host = process.env.HOST || '127.0.0.1'
   const port = process.env.PORT || 3000
 
@@ -53,8 +56,20 @@ async function start () {
     nuxt.render(ctx.req, ctx.res)
   })
 
-  app.listen(port)
-  console.log('Server listening on :' + port) // eslint-disable-line no-console
+  io.on("connection", (socket)=>{
+    console.log("유저가 접속함!")
+
+    socket.on("chat", (msg)=>{
+      console.log( "메시지 : "+ msg)
+
+      socket.emit("chat", `<${msg}>`)
+    })
+  })
+
+  http.listen(port, function(){
+    console.log('Server listening on :' + port) // eslint-disable-line no-console
+  })
+  
 }
 
 start()
