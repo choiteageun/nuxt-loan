@@ -16,7 +16,7 @@ export default {
     };
   },
   async mounted() {
-    const res = await axios.get("/api/consultation/getAllStaff");
+    const res = await axios.get("/api/user/getAllStaff");
     this.items = res.data;
   }
 };
