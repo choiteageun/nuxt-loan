@@ -25,7 +25,7 @@
       <el-pagination background layout="prev, pager, next" :total="1000"></el-pagination>
     </div>
     <div class="bottom-btn-group" style="text-align:right;margin-top:20px;">
-      <el-button @click="dialog.createCustomer = true">고객등록</el-button>
+      <el-button @click="dialog.createCustomer = true">상담등록</el-button>
       <el-button @click="dialog.createStaff = true">직원등록</el-button>
       <el-select v-model="selected" value-key="selected">
         <el-option label="최태근부장" value="1"></el-option>

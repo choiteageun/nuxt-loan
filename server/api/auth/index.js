@@ -1,16 +1,25 @@
 import Router from "koa-router";
 
 const router = new Router();
+const models = require("../../models/index");
 
 router.post("/login", async ctx => {
-  const { password } = ctx.request.body;
+  const {name, password } = ctx.request.body;
   // const password = ctx.request.body.password전개연산자
 
-  if (password === "1234") {
-    ctx.session.logged = true;
-    ctx.status = 200;
-    ctx.body = "LOGIN";
-  } else {
+  const user = await models.User.findOne({where: {name:name}})
+  if(!user){
+    tx.status = 400;
+    ctx.body = "유저 없음";
+    return;
+  }
+  if(user.password === password){
+    ctx.session.logged = true
+    ctx.session.id = user.id
+    ctx.session.name = user.name
+    ctx.status = 200
+    ctx.body = "LOGIN"
+  }else{
     ctx.status = 401;
     ctx.body = "로그인 실패";
   }

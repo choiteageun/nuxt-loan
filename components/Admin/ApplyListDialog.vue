@@ -335,8 +335,6 @@ export default {
       });
 
       this.createStaffDialog = false;
-
-      this.applyList.push(res.data);
     },
     async consulForm() {
       const res = await axios.post(

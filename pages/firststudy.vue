@@ -1,7 +1,7 @@
 <template>
   <div>
-    <el-select v-model="name" placeholder="선택해주세요">
-      <el-option v-for="item in items" :key="item.name" :label="item.name" :value="item.name"></el-option>
+    <el-select v-model="user" placeholder="선택해주세요">
+      <el-option v-for="item in items" :key="item.id" :label="item.name" :value="item.name"></el-option>
     </el-select>
   </div>
 </template>
@@ -11,6 +11,7 @@ export default {
   data() {
     return {
       items: [],
+      user:[],
 
       num: ""
     };

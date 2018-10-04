@@ -47,7 +47,7 @@
     </div>
     <footer class="footer">
       <p v-if="!$store.state.logged" @click="adminDialog= true">
-        관리자 로그인
+        로그인
       </p>
 
       <p v-if="$store.state.logged">
@@ -59,10 +59,18 @@
       </p>
     </footer>
 
-    <el-form @submit.native.prevent="handleAdminSubmit">
-      <el-dialog title="관리자 로그인" :visible.sync="adminDialog" width="400px">
-        비밀번호를 입력해주세요,
-        <el-input type="password" v-model="adminPassword"></el-input>
+    <el-form @submit.native.prevent="handleAdminSubmit" label-width="80px">
+      <el-dialog title="로그인" :visible.sync="adminDialog" width="400px">
+        <p style="margin-bottom:15px;">양식을 채워주세요</p>
+        <el-form-item label="직원 이름">
+          <el-select v-model="adminName" style="width: 100%">
+            <el-option v-for="staff in adminNames" :key="staff.id" :label="staff.name" :value="staff.name"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="비밀번호">
+          <el-input type="password" v-model="adminPassword"></el-input>
+        </el-form-item>
+        
         <transition>
           <p class="danger" v-show="wrongPassword">비밀번호가 틀렸습니다.</p>
         </transition>
@@ -78,12 +86,14 @@
 </template>
 <script>
 import axios from "axios";
-import socket from "@/plugins/socket.io.js"
+import socket from "@/plugins/socket.io.js";
 
 export default {
   data() {
     return {
       adminDialog: false,
+      adminName:'',
+      adminNames:[],
       adminPassword: "",
       wrongPassword: false,
       createUserData: {
@@ -144,11 +154,12 @@ export default {
     async handleAdminSubmit() {
       try {
         await axios.post("/api/auth/login", {
-          password: this.adminPassword
+          password: this.adminPassword,
+          name: this.adminName
         });
 
         //로그인 성공
-        this.$store.commit("login")
+        this.$store.commit("login");
         this.wrongPassword = false;
         this.adminDialog = false;
       } catch (e) {
@@ -158,16 +169,18 @@ export default {
     },
     async handleLogout() {
       await axios.get("/api/auth/logout");
-      this.$store.commit("logout")
+      this.$store.commit("logout");
     }
   },
-  async fetch({ store, app }){
-    try{
-      await app.$axios.get("/api/auth/check")
-      store.commit("login")
-    }catch(e){
-      
-    }
+  async fetch({ store, app }) {
+    try {
+      await app.$axios.get("/api/auth/check");
+      store.commit("login");
+    } catch (e) {}
+  },
+  async mounted(){
+    const data = await this.$axios.$get("/api/user/getAllStaff")
+    this.adminNames = data
   }
 };
 </script>
