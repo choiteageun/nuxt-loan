@@ -62,7 +62,7 @@ async function start () {
     socket.on("chat", (msg)=>{
       console.log( "메시지 : "+ msg)
 
-      io.socket.emit("chat", `${msg}`)
+      io.emit("chat", `${msg}`)
     })
   })
 
