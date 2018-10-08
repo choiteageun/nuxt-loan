@@ -3,6 +3,11 @@ import Vuex from "vuex"
 const store = () => new Vuex.Store({
   //담아 놓을 데이터 저장소
   state :{
+    info:{
+      id: 0,
+      name: ''
+    },
+
     logged: false,
 
     applyList: [],
@@ -13,8 +18,10 @@ const store = () => new Vuex.Store({
   //번이 : state 에 있는 데이터를 바꿀수 있는 유일한 곳
 
   mutations:{
-    login(state){
-      state.logged= true
+    login(state, info){
+      state.logged= true,
+      state.info.id = info.id
+      state.info.name = info.name
     },
 
     logout(state){
@@ -43,7 +50,11 @@ const store = () => new Vuex.Store({
     }
   },
   actions:{
-
+    nuxtServerInit({ commit}, {req}){
+      if(req.ctx.session.logged){
+        commit("login", req.ctx.session)
+      }
+    }
   }
 })
 

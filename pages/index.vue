@@ -153,13 +153,13 @@ export default {
     },
     async handleAdminSubmit() {
       try {
-        await axios.post("/api/auth/login", {
+        const info = await this.$axios.$post("/api/auth/login", {
           password: this.adminPassword,
           name: this.adminName
         });
 
         //로그인 성공
-        this.$store.commit("login");
+        this.$store.commit("login", info);
         this.wrongPassword = false;
         this.adminDialog = false;
       } catch (e) {
@@ -173,10 +173,6 @@ export default {
     }
   },
   async fetch({ store, app }) {
-    try {
-      await app.$axios.get("/api/auth/check");
-      store.commit("login");
-    } catch (e) {}
   },
   async mounted(){
     const data = await this.$axios.$get("/api/user/getAllStaff")

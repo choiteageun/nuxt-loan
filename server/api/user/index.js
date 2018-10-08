@@ -8,7 +8,6 @@ const router = new Router()
 router.get("/getAllStaff", async ctx =>{
   const result = await models.User.findAll({})
   ctx.body = result;
-  console.log(result)
 })
 
 module.exports = router

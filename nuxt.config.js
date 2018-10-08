@@ -1,3 +1,6 @@
+const bDev = process.env.NODE_ENV === "development"
+const host_url = bDev ? "http://localhost:3000" : "http://13.58.30.58:3000"
+
 module.exports = {
   head: {
     title: 'young capital',
@@ -13,7 +16,7 @@ module.exports = {
   },
   env:{
     // HOST_URL: "http://localhost:3000",
-    HOST_URL: "http://13.58.30.58:3000"
+    HOST_URL: host_url,
   },
   css: [
     { src: '@/assets/scss/element-ui.scss', lang:"scss"},
@@ -28,6 +31,6 @@ module.exports = {
   },
   modules: ["@nuxtjs/axios"],
   axios: {
-    browserBaseURL: "http://localhost:3000"
+    browserBaseURL: host_url
   }
 }

@@ -1,7 +1,8 @@
 <template>
   <div>
     <nuxt />
-    <Chat />
+
+    <Chat v-if="$store.state.logged" />
   </div>
 
 </template>

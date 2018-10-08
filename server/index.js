@@ -59,10 +59,10 @@ async function start () {
   io.on("connection", (socket)=>{
     console.log("유저가 접속함!")
 
-    socket.on("chat", (msg)=>{
-      console.log( "메시지 : "+ msg)
+    socket.on("chat", (chat)=>{
+      
 
-      io.emit("chat", `${msg}`)
+      io.emit("chat", chat)
     })
   })
 

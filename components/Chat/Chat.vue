@@ -39,31 +39,37 @@ export default {
         return false;
       }
 
-      socket.emit("chat", this.message);
+      socket.emit("chat", {
+        name: this.$store.state.info.name,
+        message : this.message
+      });
 
       // this.list.push(chat);
 
       this.message = "";
 
-      //스크롤을 내려준다.
-      //nextTick(콜백함수) : 콜백함수를 한단계 다음 프레임에 실행 시켜준다.
-      this.$nextTick(function() {
-        const contentTag = this.$refs.content;
-        contentTag.scrollTop =
-          contentTag.scrollHeight - contentTag.clientHeight;
-      });
     }
   },
   mounted() {
     const chatList = this.list;
+    const chatComponent = this
 
-    socket.on("chat", function(msg) {
-      const chat = {
-        name: "최태근",
-        message: msg
-      };
+    socket.on("chat", function(chat) {
+
       chatList.push(chat);
+
+
+      //스크롤을 내려준다.
+      //nextTick(콜백함수) : 콜백함수를 한단계 다음 프레임에 실행 시켜준다.
+      chatComponent.$nextTick(function() {
+        const contentTag = chatComponent.$refs.content;
+        contentTag.scrollTop =
+          contentTag.scrollHeight - contentTag.clientHeight;
+      });
     });
+  },
+  beforeDestroy(){
+    socket.off("chat")
   }
 };
 </script>

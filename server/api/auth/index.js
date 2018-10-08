@@ -18,7 +18,7 @@ router.post("/login", async ctx => {
     ctx.session.id = user.id
     ctx.session.name = user.name
     ctx.status = 200
-    ctx.body = "LOGIN"
+    ctx.body = ctx.session
   }else{
     ctx.status = 401;
     ctx.body = "로그인 실패";

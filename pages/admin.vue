@@ -47,9 +47,6 @@ export default {
   //컴포넌트가 로딩되기 전에 실행되는 함수, {페이지 컴포넌트만 사용 가능}
   async fetch({ store, app, redirect }) {
     try {
-      await app.$axios.$get("/api/auth/check");
-      store.commit("login");
-
       const data = await app.$axios.$get("/api/consultation");
       store.commit("setApplyList", data)
     } catch (e) {
