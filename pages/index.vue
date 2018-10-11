@@ -86,7 +86,7 @@
 </template>
 <script>
 import axios from "axios";
-import socket from "@/plugins/socket.io.js";
+// import socket from "@/plugins/socket.io.js";
 
 export default {
   data() {

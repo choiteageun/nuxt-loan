@@ -23,7 +23,7 @@
 
 </template>
 <script>
-import socket from "@/plugins/socket.io.js";
+// import socket from "@/plugins/socket.io.js";
 
 export default {
   data() {
@@ -39,10 +39,10 @@ export default {
         return false;
       }
 
-      socket.emit("chat", {
-        name: this.$store.state.info.name,
-        message : this.message
-      });
+      // socket.emit("chat", {
+      //   name: this.$store.state.info.name,
+      //   message : this.message
+      // });
 
       // this.list.push(chat);
 
@@ -54,22 +54,22 @@ export default {
     const chatList = this.list;
     const chatComponent = this
 
-    socket.on("chat", function(chat) {
+    // socket.on("chat", function(chat) {
 
-      chatList.push(chat);
+    //   chatList.push(chat);
 
 
-      //스크롤을 내려준다.
-      //nextTick(콜백함수) : 콜백함수를 한단계 다음 프레임에 실행 시켜준다.
-      chatComponent.$nextTick(function() {
-        const contentTag = chatComponent.$refs.content;
-        contentTag.scrollTop =
-          contentTag.scrollHeight - contentTag.clientHeight;
-      });
-    });
+    //   //스크롤을 내려준다.
+    //   //nextTick(콜백함수) : 콜백함수를 한단계 다음 프레임에 실행 시켜준다.
+    //   chatComponent.$nextTick(function() {
+    //     const contentTag = chatComponent.$refs.content;
+    //     contentTag.scrollTop =
+    //       contentTag.scrollHeight - contentTag.clientHeight;
+    //   });
+    // });
   },
   beforeDestroy(){
-    socket.off("chat")
+    // socket.off("chat")
   }
 };
 </script>
