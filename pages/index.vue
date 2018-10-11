@@ -175,7 +175,7 @@ export default {
   async fetch({ store, app }) {
   },
   async mounted(){
-    const data = await this.$axios.$get("/api/user/getAllStaff")
+    const data = await this.$axios.$get("/api/user")
     this.adminNames = data
   }
 };

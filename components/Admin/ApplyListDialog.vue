@@ -25,7 +25,7 @@
           <el-col :span="16">
             <el-form-item label="담당/접수자">
               <el-col :span="11">
-                <el-select v-model="consulFormData.manager" style="width:50%;">
+                <el-select v-model="consulFormData.manager_id" style="width:50%;">
                   <el-option v-for="staff in 3" :key="staff" :label="staff.name"></el-option>
                 </el-select>
               </el-col>
@@ -228,26 +228,7 @@
       </el-dialog>
     </el-form>
 
-    <el-form label-width="90px" @submit.native.prevent="createStaff">
-      <el-dialog title="직원 등록" :visible.sync="dialog.createStaff" width="400px" class="create-staff-dialog">
-        <el-form-item label="이름">
-          <el-input v-model="createStaffData.name"></el-input>
-        </el-form-item>
-        <el-form-item label="비밀번호등록">
-          <el-input type="password" v-model="createStaffData.password"></el-input>
-        </el-form-item>
-        <el-form-item label="연락처">
-          <el-input v-model="createStaffData.tel"></el-input>
-        </el-form-item>
-        <el-form-item label="나이">
-          <el-input v-model="createStaffData.age"></el-input>
-        </el-form-item>
-        <div slot="footer">
-          <el-button @click="dialog.createStaff = false">취소</el-button>
-          <el-button type="primary" native-type="submit">생성</el-button>
-        </div>
-      </el-dialog>
-    </el-form>
+    
   </div>
 </template>
 <script>
@@ -260,18 +241,12 @@ export default {
       memo: [{ time: "2016-03-21 10:30:23", name: "최태근", note: "없음" }],
       staff: [{name: "하이"},{name: "하삼"},{name: "하사"}],
       consul: [],
-      createStaffData: {
-        name: "",
-        tel: "",
-        age: "",
-        password: ""
-      },
       createUserData: {
         name: "",
         tel: "",
         loanAmount: "",
         route: "",
-        manager: ""
+        manager_id: ""
       },
       consulFormData: {
         id: "",
@@ -290,7 +265,7 @@ export default {
         overdue: 0,
         propertyA: false,
         propertyB: "",
-        manager: "",
+        manager_id: "",
         receptionist: "",
         enrollment_date: "2018-09-28",
         enrollment_time: "13:00:00",
@@ -325,16 +300,6 @@ export default {
       this.dialog.createCustomer = false;
 
       this.$store.commit("addApply", res.data);
-    },
-    async getStaff() {
-      const res = await axios.get("/api/getStaff", {});
-    },
-    async createStaff() {
-      const res = await axios.post("/api/createStaff", {
-        data: this.createStaffData
-      });
-
-      this.createStaffDialog = false;
     },
     async consulForm() {
       const res = await axios.post(

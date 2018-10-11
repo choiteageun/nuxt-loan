@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
     overdue: DataTypes.INTEGER,
     propertyA: DataTypes.BOOLEAN,
     propertyB: DataTypes.STRING,
-    manager: DataTypes.STRING,
+    manager_id: DataTypes.INTEGER,
     receptionist: DataTypes.STRING,
     enrollment_date: DataTypes.DATEONLY,
     enrollment_time: DataTypes.TIME,

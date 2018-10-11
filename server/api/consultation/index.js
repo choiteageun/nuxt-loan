@@ -40,7 +40,7 @@ router.post("/:id", async ctx => {
 router.get("/staff", async ctx => {
   const result = await models.Consultation.findOne({
     where: {
-      manager: "신현민"
+      manager_id: "신현민"
     }
   });
   ctx.body = result;

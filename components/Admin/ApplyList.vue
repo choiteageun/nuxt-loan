@@ -18,7 +18,6 @@ export default {
     return {
       dialog: {
         createCustomer: false,
-        createStaff: false,
         updateConsul: false
       },
     };

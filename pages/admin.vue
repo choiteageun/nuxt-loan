@@ -49,6 +49,9 @@ export default {
     try {
       const data = await app.$axios.$get("/api/consultation");
       store.commit("setApplyList", data)
+
+      const staffs = await app.$axios.$get("/api/user")
+      store.commit("setStaffList", staffs)
     } catch (e) {
       console.log(e)
       redirect('/')

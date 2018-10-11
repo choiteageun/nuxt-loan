@@ -11,6 +11,7 @@ const store = () => new Vuex.Store({
     logged: false,
 
     applyList: [],
+    staffList: [],
 
     list:[],
   },
@@ -35,6 +36,15 @@ const store = () => new Vuex.Store({
     addApply(state, apply){
       //배열 앞에 데이터를 추가
       state.applyList.unshift( apply)
+    },
+
+    setStaffList(state, data){
+      state.staffList = data
+    },
+
+    addStaff(state, staff){
+      //배열 앞에 데이터를 추가
+      state.staffList.unshift( staff)
     },
 
     setList(state, list){

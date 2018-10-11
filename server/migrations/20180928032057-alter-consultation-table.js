@@ -47,7 +47,7 @@ module.exports = {
         type: Sequelize.STRING
       }),
       queryInterface.renameColumn(
-        "Consultation",
+        "Consultations",
         "enrollment_date",
         "enrollment"
       ),
