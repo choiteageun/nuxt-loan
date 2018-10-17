@@ -17,11 +17,5 @@ router.get("/list", ctx=>{
   ctx.body = ["사과", "바나나", "오렌지",1,3]
 })
 
-router.post("/createStaff", async ctx => {
-  const { data } = ctx.request.body;
 
-  const result = await models.User.create(data);
-
-  ctx.body = result;
-});
 module.exports = router

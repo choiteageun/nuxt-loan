@@ -2,7 +2,7 @@
   <div class="container">
     <div>
       <h4>
-        <span style="color:rgba(0,0,150,1);">{{worker}}</span>님 접속중</h4>
+        <span style="color:rgba(0,0,150,1);">{{this.$store.state.info.name}}</span>님 접속중</h4>
     </div>
     <div class="center">
       <h1>Staff Page</h1>
@@ -19,7 +19,7 @@
       <el-table-column label="상태" prop="situation" width="100px;"></el-table-column>
       <el-table-column label="접수일시" prop="enrollment" width="100px;"></el-table-column>
       <el-table-column label="최근수정" prop="enrollment" width="100px;"></el-table-column>
-      <el-table-column label="고객수정" fixed="right" width="100px;">
+      <el-table-column label="고객정보수정" fixed="right" width="100px;">
         <template slot-scope="scope">
           <el-button type="primary" size="mini">상세보기</el-button>
         </template>
@@ -49,11 +49,15 @@ export default {
   method: {
 
   },
-  mounted(){
-    axios.get("/api/consultation/staff").then(res => {
-      this.customer.push(res.data)
-      // this.customer = res.data
-    })
+  async mounted(){
+    
+    const res = await axios.get(`/api/consultation/${this.$store.state.info.id}`,{})
+    this.customer = res.data
+
+    // axios.get("/api/consultation/staff").then(res => {
+    //   this.customer.push(res.data)
+    //   // this.customer = res.data
+    // })
 
   }
 };

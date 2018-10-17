@@ -27,7 +27,10 @@ module.exports = (sequelize, DataTypes) => {
     agency: DataTypes.STRING,
     period: DataTypes.STRING,
     marry: DataTypes.BOOLEAN,
-    grade: DataTypes.STRING
+    grade: DataTypes.STRING,
+    coment: DataTypes.STRING,
+    record: DataTypes.STRING,
+    memo: DataTypes.STRING
   }, {});
   Consultation.associate = function(models) {
     // associations can be defined here

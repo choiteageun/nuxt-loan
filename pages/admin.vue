@@ -11,11 +11,12 @@
       <el-button @click="tab = 'staff'" :type="tab === 'staff' ? 'primary' : 'warning'">직원관리</el-button>
     </div>
     <div>
-      <ApplyList v-if="tab === 'apply'"></ApplyList>
-      <CompleteList v-if="tab === 'complete'"></CompleteList>
-      <Customer v-if="tab === 'notice'"></Customer>
-      <Notice v-if="tab === 'customer'"></Notice>
-      <Staff v-if="tab === 'staff'"></Staff>
+      <transition name="tab" mode="out-in"><ApplyList v-if="tab === 'apply'"></ApplyList>
+      <CompleteList v-else-if="tab === 'complete'"></CompleteList>
+      <Customer v-else-if="tab === 'notice'"></Customer>
+      <Notice v-else-if="tab === 'customer'"></Notice>
+      <Staff v-else></Staff>
+      </transition>
     </div>
   </section>
 </template>
@@ -67,5 +68,15 @@ export default {
 .title {
   font-size: 40px;
   margin: 20px 0 40px 0;
+}
+/* 트랜지션 내내 적용되는 클래스 */
+.tab-enter-active, .tab-leave-active{
+  transition: opacity .5s;
+  
+}
+
+/* 트랜지션 및 첫 프레임에 적용되었다가 사라지는 클래스 즉, css 초기값 */
+.tab-enter, .tab-leave-to{
+  opacity: 0;
 }
 </style>

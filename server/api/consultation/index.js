@@ -6,6 +6,9 @@ const User = require("../../models/User");
 
 const router = new Router()
 
+const consulReport = require("./consulReport")
+router.use("/consulReport", consulReport.routes())
+
 router.get("/", async ctx => {
   const data = await models.Consultation.findAll({
     order: [
@@ -54,13 +57,12 @@ router.get("/getAllStaff", async ctx =>{
 })
 
 router.get("/:id", async ctx => {
-  const {id} = ctx.params
-
+  const { id } = ctx.params
   const result = await models.Consultation.findAll({
     where: {
-      id: id
+      manager_id: id
     }
-  })
+  });
   ctx.body = result;
 });
 module.exports = router

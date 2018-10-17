@@ -14,4 +14,20 @@ router.get("/", async ctx =>{
   ctx.body = result;
 })
 
+router.post("/createStaff", async ctx => {
+  const { data } = ctx.request.body;
+
+  const result = await models.User.create(data);
+
+  ctx.body = result;
+});
+
+router.post("/:id", async ctx => {
+  const { data } = ctx.request.body;
+  const { id } = ctx.params
+  const result = await models.User.update(data,{ where: {id: id} });
+
+  ctx.body = result;
+});
+
 module.exports = router

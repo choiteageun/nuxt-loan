@@ -75,8 +75,8 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="휴대폰번호" v-model="consulFormData.tel">
-              <el-input></el-input>
+            <el-form-item label="휴대폰번호">
+              <el-input v-model="consulFormData.tel"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="4">
@@ -180,14 +180,24 @@
               </el-form-item>
             </el-col>
           </el-col>
+          <el-col :span="24">
+            <el-form-item label="문의내용">
+              <el-input v-model="consulFormData.note" disabled></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="24">
+            <el-form-item label="1차상담">
+              <el-input v-model="consulFormData.coment"></el-input>
+            </el-form-item>
+          </el-col>
           <el-col style="text-align:right;">
             <el-button type="danger" @click="dialog.updateConsul= false">목록으로</el-button>
             <el-button type="primary" native-type="submit">수정완료</el-button>
           </el-col>
           <el-col>
-            <el-input style="margin-top:20px;margin-bottom:20px;" type="textarea" :autosize="{ minRows: 1, maxRows: 2}" disabled placeholder="상담내용"></el-input>
+            <el-input v-model="consulFormData.coment" style="margin-top:20px;margin-bottom:20px;" type="textarea" :autosize="{ minRows: 1, maxRows: 2}" disabled placeholder="상담내용"></el-input>
           </el-col>
-          <el-table :data="memo" size="mini" style="width:100%;">
+          <el-table :data="record" size="mini" style="width:100%;">
             <el-table-column>
               <el-table-column prop="time" label="시간" width="150px"></el-table-column>
               <el-table-column prop="name" label="이름" width="60px"></el-table-column>
@@ -196,7 +206,7 @@
           </el-table>
           <el-col>
             <el-form-item label-width="0">
-              <el-input type="textarea" :autosize="{ minRows: 1, maxRows: 1}" placeholder="내용을 입력해주세요">
+              <el-input style="resize:none;" type="textarea" :autosize="{ minRows: 1, maxRows: 1}" placeholder="내용을 입력해주세요">
               </el-input>
             </el-form-item>
           </el-col>
@@ -228,7 +238,6 @@
       </el-dialog>
     </el-form>
 
-    
   </div>
 </template>
 <script>
@@ -239,8 +248,9 @@ export default {
       route: "웹",
       selected: "",
       memo: [{ time: "2016-03-21 10:30:23", name: "최태근", note: "없음" }],
-      staff: [{name: "하이"},{name: "하삼"},{name: "하사"}],
+      staff: [{ name: "하이" }, { name: "하삼" }, { name: "하사" }],
       consul: [],
+      record: [],
       createUserData: {
         name: "",
         tel: "",
@@ -276,7 +286,9 @@ export default {
         agency: "",
         period: "",
         marry: false,
-        grade: ""
+        grade: "",
+        coment: "",
+        memo: ""
       }
     };
   },
@@ -313,8 +325,17 @@ export default {
 
       console.log(res);
     }
+  },
+  async mounted() {
+    const res = await axios.get("/api/consultation/consulReport", {});
+    this.record = res.data;
   }
 };
 </script>
 <style lang="scss" scoped>
+.el-form {
+  & /deep/ .el-textarea__inner {
+    resize: none;
+  }
+}
 </style>
