@@ -14,7 +14,7 @@
       <el-table-column label="연락처" prop="tel" width="100px;"></el-table-column>
       <el-table-column label="경로" prop="route" width="100px;"></el-table-column>
       <el-table-column label="승인액" prop="tel" width="100px;"></el-table-column>
-      <el-table-column label="담당자" prop="manager" width="100px;"></el-table-column>
+      <el-table-column label="담당자" prop="manager_id" width="100px;"></el-table-column>
       <el-table-column label="접수자" prop="receptionist" width="100px;"></el-table-column>
       <el-table-column label="상태" prop="situation" width="100px;"></el-table-column>
       <el-table-column label="접수일시" prop="enrollment" width="100px;"></el-table-column>
@@ -43,7 +43,6 @@ export default {
   data() {
     return {
       customer:[],
-      worker: "최태근"
     };
   },
   method: {
@@ -53,7 +52,7 @@ export default {
     
     const res = await axios.get(`/api/consultation/${this.$store.state.info.id}`,{})
     this.customer = res.data
-
+    console.log(this.customer)
     // axios.get("/api/consultation/staff").then(res => {
     //   this.customer.push(res.data)
     //   // this.customer = res.data
