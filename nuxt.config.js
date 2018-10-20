@@ -1,5 +1,6 @@
 const bDev = process.env.NODE_ENV === "development"
 const host_url = bDev ? "http://localhost:3000" : "http://18.220.88.167:3000"
+console.log(host_url);
 
 module.exports = {
   head: {
