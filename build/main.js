@@ -92,7 +92,7 @@ var fs = __webpack_require__(18);
 var path = __webpack_require__(19);
 var Sequelize = __webpack_require__(21);
 var basename = path.basename(__filename);
-var env = "production" || 'development';
+var env = "development" || 'development';
 var config = __webpack_require__(17)[env];
 var db = {};
 
@@ -192,7 +192,7 @@ module.exports = function (sequelize, DataTypes) {
 /* 5 */
 /***/ function(module, exports, __webpack_require__) {
 
-var bDev = "production" === "development";
+var bDev = "development" === "development";
 var host_url = bDev ? "http://localhost:3000" : "http://18.220.88.167:3000";
 console.log(host_url);
 
